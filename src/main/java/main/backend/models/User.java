@@ -34,7 +34,7 @@ public class User {
     private Role role = Role.CITIZEN;
 
     @Column(nullable = true)
-    private String employeeId;
+    private String employee_id;
 
     @CreationTimestamp
     @Column(updatable = false)

@@ -1,4 +1,4 @@
-package main.backend.models;
+package main.backend.enums;
 
 public enum Role{
     CITIZEN,

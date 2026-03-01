@@ -2,6 +2,7 @@ package main.backend.models;
 
 import jakarta.persistence.*;
 import lombok.*;
+import main.backend.enums.Role;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;

@@ -29,16 +29,16 @@ public class Route {
     private Vehicle vehicle;
 
     @Column(nullable = false)
-    private double total_distance;
+    private double totalDistance;
 
     @Column(nullable = false)
-    private int total_complaints;
+    private int totalComplaints;
 
     @Column
-    private int estimated_duration;
+    private int estimatedDuration;
 
     @Column(columnDefinition = "jsonb")
-    private String optimization_data;
+    private String optimizationData;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -46,9 +46,9 @@ public class Route {
 
     @CreationTimestamp
     @Column(updatable = false,nullable = false)
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 
     @UpdateTimestamp
     @Column(nullable = false)
-    private LocalDateTime updated_at;
+    private LocalDateTime updatedAt;
 }

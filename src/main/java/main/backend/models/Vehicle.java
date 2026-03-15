@@ -28,9 +28,9 @@ public class Vehicle {
     private VehicleStatus vehicleStatus = VehicleStatus.ACTIVE;
 
     @Column(nullable = false)
-    private String vehicle_no;
+    private String vehicleNo;
 
     @CreationTimestamp
     @Column(updatable = false, nullable = false)
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 }

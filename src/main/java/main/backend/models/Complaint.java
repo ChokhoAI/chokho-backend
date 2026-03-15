@@ -33,44 +33,44 @@ public class Complaint {
     @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
 
-    @Column(columnDefinition = "jsonb")
-    private String gemini_analysis;
+//    @Column(columnDefinition = "jsonb")
+//    private String gemini_analysis;
 
     @Column(nullable = false)
-    private String image_url;
+    private String imageUrl;
 
     @Column(columnDefinition = "geometry(Point,4326)")
     private Point location;
 
     @Column(nullable = false)
-    private boolean trash_detected;
+    private boolean trashDetected;
 
     @Enumerated(EnumType.STRING)
     private ComplaintStatus status = ComplaintStatus.PENDING;
 
     @Column
-    private String trash_type;
+    private String trashType;
 
     @Column
-    private String volume_estimate;
+    private String volumeEstimate;
 
     @Column
-    private boolean is_indoor;
+    private boolean isIndoor;
 
     @Column
-    private String location_context;
+    private String locationContext;
 
     @Column(columnDefinition = "TEXT")
-    private String rejection_reason;
+    private String rejectionReason;
 
     @Column
-    private double severity_score;
+    private double severityScore;
 
     @CreationTimestamp
     @Column(updatable = false, nullable = false)
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 
     @UpdateTimestamp
     @Column(nullable = false)
-    private LocalDateTime updated_at;
+    private LocalDateTime updatedAt;
 }

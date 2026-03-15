@@ -28,18 +28,18 @@ public class Verification {
     private User worker;
 
     @Column(nullable = false)
-    private String verified_img_url;
+    private String verifiedImgUrl;
 
     @Column(columnDefinition = "geometry(Point,4326)",nullable = false)
-    private Point verified_location;
+    private Point verifiedLocation;
 
     @Column(nullable = false)
-    private boolean trash_found;
+    private boolean trashFound;
 
     @Column(columnDefinition = "TEXT")
     private String notes;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 }

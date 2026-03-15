@@ -23,10 +23,10 @@ public class User {
     private String username;
 
     @Column(unique = true, nullable = false)
-    private String phone_no;
+    private String phone;
 
     @Column(nullable = false)
-    private boolean phone_verified;
+    private boolean phoneVerified;
 
     @Column(nullable = false)
     private String password;
@@ -35,9 +35,9 @@ public class User {
     private Role role = Role.CITIZEN;
 
     @Column(nullable = true)
-    private String employee_id;
+    private String employeeId;
 
     @CreationTimestamp
     @Column(updatable = false)
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 }

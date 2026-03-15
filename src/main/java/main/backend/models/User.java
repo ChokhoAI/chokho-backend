@@ -20,13 +20,12 @@ public class User {
     private Long id;
 
     @Column(nullable = false)
-    private String username;
+    private String name;
 
     @Column(unique = true, nullable = false)
     private String phone;
 
-    @Column(nullable = false)
-    private boolean phoneVerified;
+    private boolean phoneVerified = false;
 
     @Column(nullable = false)
     private String password;
@@ -34,7 +33,6 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role = Role.CITIZEN;
 
-    @Column(nullable = true)
     private String employeeId;
 
     @CreationTimestamp

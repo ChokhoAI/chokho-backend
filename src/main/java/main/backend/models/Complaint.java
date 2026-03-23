@@ -33,9 +33,6 @@ public class Complaint {
     @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
 
-//    @Column(columnDefinition = "jsonb")
-//    private String gemini_analysis;
-
     @Column(nullable = false)
     private String imageUrl;
 

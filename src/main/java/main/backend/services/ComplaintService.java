@@ -1,0 +1,63 @@
+package main.backend.services;
+
+import main.backend.dto.AIResponse;
+import main.backend.enums.ComplaintStatus;
+import main.backend.models.Complaint;
+import main.backend.models.GeoLocation;
+import main.backend.models.User;
+import main.backend.repositories.ComplaintRepository;
+import main.backend.security.CustomUserDetails;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.geom.PrecisionModel;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+@Service
+public class ComplaintService {
+    private final ComplaintRepository complaintRepository;
+    private final CloudinaryService cloudinaryService;
+    private final ExifService exifService;
+    private final AIService aiService;
+
+    public ComplaintService(ComplaintRepository complaintRepository , AIService aiService, CloudinaryService cloudinaryService, ExifService exifService){
+        this.complaintRepository = complaintRepository;
+        this.aiService = aiService;
+        this.cloudinaryService = cloudinaryService;
+        this.exifService = exifService;
+    }
+    public String registerComplaint(MultipartFile image , CustomUserDetails userDetails) throws  Exception{
+
+        GeoLocation geoLocation = exifService.getGeoLocation(image);
+        AIResponse aiResponse = aiService.fastApiService();
+
+        if(!aiResponse.isTrashDetected()){
+            return "Trash not detected";
+        }
+        else if(aiResponse.isIndoor()){
+            return "Trash is found indoor";
+        }
+        else if(aiResponse.isFake()){
+            return "Image is fake";
+        }else {
+            String url = cloudinaryService.uploadImage(image);
+            GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(),4326);
+            Point point = geometryFactory.createPoint(new Coordinate(geoLocation.getLongitude(), geoLocation.getLatitude()));
+            User user = userDetails.getUser();
+
+            Complaint complaint = Complaint.builder().user(user)
+
+                        .location(point)
+                        .imageUrl(url)
+                        .status(ComplaintStatus.PENDING)
+                        .severityScore(aiResponse.getSeverityScore())
+                        .trashType(aiResponse.getTrashType())
+                        .locationContext(aiResponse.getLocationContext())
+                        .volumeEstimate(aiResponse.getVolumeEstimate())
+                        .build();
+                complaintRepository.save(complaint);
+                return "Complaint Registered Successfully!";
+        }
+    }
+}

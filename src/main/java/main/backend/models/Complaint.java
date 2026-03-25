@@ -3,6 +3,8 @@ package main.backend.models;
 import jakarta.persistence.*;
 import lombok.*;
 import main.backend.enums.ComplaintStatus;
+import main.backend.enums.TrashType;
+import main.backend.enums.VolumeEstimate;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.locationtech.jts.geom.Point;
@@ -39,26 +41,17 @@ public class Complaint {
     @Column(columnDefinition = "geometry(Point,4326)")
     private Point location;
 
-    @Column(nullable = false)
-    private boolean trashDetected;
-
     @Enumerated(EnumType.STRING)
     private ComplaintStatus status = ComplaintStatus.PENDING;
 
-    @Column
-    private String trashType;
+    @Enumerated(EnumType.STRING)
+    private TrashType trashType;
 
-    @Column
-    private String volumeEstimate;
-
-    @Column
-    private boolean isIndoor;
+    @Enumerated(EnumType.STRING)
+    private VolumeEstimate volumeEstimate;
 
     @Column
     private String locationContext;
-
-    @Column(columnDefinition = "TEXT")
-    private String rejectionReason;
 
     @Column
     private double severityScore;

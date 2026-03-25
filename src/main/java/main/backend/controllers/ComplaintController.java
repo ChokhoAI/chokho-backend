@@ -1,11 +1,9 @@
 package main.backend.controllers;
 
-import main.backend.enums.Role;
-import main.backend.models.Complaint;
+import main.backend.dto.ComplaintResponse;
 import main.backend.security.CustomUserDetails;
 import main.backend.services.ComplaintService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,9 +31,8 @@ public class ComplaintController {
         return ResponseEntity.ok(complaintService.registerComplaint(image,userDetails));
     }
 
-//    @PreAuthorize("ADMIN")
-//    @GetMapping("/complaints")
-//    public List<Complaint> complaints(){
-//
-//    }
+    @GetMapping("/complaints")
+    public List<ComplaintResponse> complaints(){
+        return complaintService.findAllComplaints();
+    }
 }

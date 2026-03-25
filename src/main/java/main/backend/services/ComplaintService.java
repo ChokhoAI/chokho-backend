@@ -1,6 +1,7 @@
 package main.backend.services;
 
 import main.backend.dto.AIResponse;
+import main.backend.dto.ComplaintResponse;
 import main.backend.enums.ComplaintStatus;
 import main.backend.models.Complaint;
 import main.backend.models.GeoLocation;
@@ -13,6 +14,8 @@ import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.PrecisionModel;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Service
 public class ComplaintService {
@@ -59,5 +62,18 @@ public class ComplaintService {
                 complaintRepository.save(complaint);
                 return "Complaint Registered Successfully!";
         }
+    }
+
+    public List<ComplaintResponse> findAllComplaints(){
+        List<Complaint> complaints = complaintRepository.findAll();
+
+        return complaints.stream().map(
+              complaint ->  new ComplaintResponse(complaint.getLocation().getY(),
+                                                            complaint.getLocation().getX(),
+                                                            complaint.getImageUrl(),
+                                                            complaint.getStatus(),
+                                                            complaint.getSeverityScore()
+                      )
+        ).toList();
     }
 }

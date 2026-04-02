@@ -35,6 +35,8 @@ public class Complaint {
     @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
 
+    private int sequence_no;
+
     @Column(nullable = false)
     private String imageUrl;
 

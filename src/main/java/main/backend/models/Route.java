@@ -21,24 +21,12 @@ public class Route {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "worker_id", nullable = false)
+    @JoinColumn(name = "worker_id", nullable = true)
     private User worker;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "vehicle_id", nullable = false)
+    @JoinColumn(name = "vehicle_id", nullable = true)
     private Vehicle vehicle;
-
-    @Column(nullable = false)
-    private double totalDistance;
-
-    @Column(nullable = false)
-    private int totalComplaints;
-
-    @Column
-    private int estimatedDuration;
-
-    @Column(columnDefinition = "jsonb")
-    private String optimizationData;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)

@@ -54,4 +54,38 @@ public class AuthService {
 
         return new AuthResponse(token, userDetails.getUsername(), userDetails.getUser().getRole().name());
     }
+
+    public String registerAdmin(RegisterRequest registerRequest){
+        if(userRepository.existsByPhone(registerRequest.getPhone())){
+            throw new RuntimeException("User is already registered with this phone number");
+        }
+
+        User user = User.builder()
+                .name(registerRequest.getName())
+                .phone(registerRequest.getPhone())
+                .password(encoder.encode(registerRequest.getPassword()))
+                .role(Role.ADMIN)
+                .build();
+
+        userRepository.save(user);
+
+        return "Admin registered successfully";
+    }
+
+    public String registerWorker(RegisterRequest registerRequest){
+        if(userRepository.existsByPhone(registerRequest.getPhone())){
+            throw new RuntimeException("User is already registered with this phone number");
+        }
+
+        User user = User.builder()
+                .name(registerRequest.getName())
+                .phone(registerRequest.getPhone())
+                .password(encoder.encode(registerRequest.getPassword()))
+                .role(Role.WORKER)
+                .build();
+
+        userRepository.save(user);
+
+        return "Worker registered successfully";
+    }
 }

@@ -3,7 +3,6 @@ package main.backend.controllers;
 import main.backend.dto.AuthResponse;
 import main.backend.dto.LoginRequest;
 import main.backend.dto.RegisterRequest;
-import main.backend.models.User;
 import main.backend.services.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,7 +37,32 @@ public class AuthController {
             return ResponseEntity.ok(response);
         }
         catch (Exception e){
+            System.out.println("Login error: " + e.getMessage());
+            e.printStackTrace();
             return ResponseEntity.badRequest().body(null);
         }
     }
+
+    @PostMapping("registerAdmin")
+    public ResponseEntity<String> registerAdmin(@RequestBody RegisterRequest registerRequest){
+        try{
+            String message = authService.registerAdmin(registerRequest);
+            return ResponseEntity.ok(message);
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("registerWorker")
+    public ResponseEntity<String> registerWorker(@RequestBody RegisterRequest registerRequest){
+        try{
+            String message = authService.registerWorker(registerRequest);
+            return ResponseEntity.ok(message);
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
 }

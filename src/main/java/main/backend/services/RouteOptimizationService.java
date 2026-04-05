@@ -91,7 +91,7 @@ public class RouteOptimizationService {
                     Complaint complaint  = complaints.get(i);
                     complaint.setRoute(route);
                     complaint.setStatus(ComplaintStatus.ASSIGNED);
-                    complaint.setSequence_no(i+1);
+                    complaint.setSequenceNo(i+1);
                     complaint.setVehicle(vehicle);
                 }
 

@@ -1,30 +1,21 @@
 package main.backend.controllers;
-
-import main.backend.models.Complaint;
-import main.backend.models.Route;
-import main.backend.models.User;
-import main.backend.models.Vehicle;
-import main.backend.repositories.ComplaintRepository;
-import main.backend.repositories.RouteRepository;
-import main.backend.repositories.VehicleRepository;
 import main.backend.security.CustomUserDetails;
+import main.backend.services.VerificationService;
 import main.backend.services.WorkerService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Collections;
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/worker")
 public class WorkerController {
     private final WorkerService workerService;
+    private final VerificationService verificationService;
 
-    public WorkerController(WorkerService workerService){
+    public WorkerController(WorkerService workerService,VerificationService verificationService){
       this.workerService = workerService;
+      this.verificationService = verificationService;
     }
 
     @GetMapping("/my-route")
@@ -34,5 +25,27 @@ public class WorkerController {
                                                                             .getAuthentication()
                                                                             .getPrincipal();
         return ResponseEntity.ok(workerService.getRoute(userDetails.getUser()));
+    }
+
+    @PostMapping("/verify/{complaintId}")
+    public ResponseEntity<String> verify(@RequestParam MultipartFile image , @PathVariable Long complaintId){
+        try{
+            CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            return ResponseEntity.ok(verificationService.verifyImage(image,complaintId,userDetails.getUser()));
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/my-route/finish")
+    public ResponseEntity<String> finishRoute(){
+        try{
+            CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            return ResponseEntity.ok(verificationService.finishRoute(userDetails.getUser()));
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }

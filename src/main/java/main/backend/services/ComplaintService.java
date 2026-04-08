@@ -56,7 +56,7 @@ public class ComplaintService {
                         .status(ComplaintStatus.PENDING)
                         .severityScore(aiResponse.getSeverityScore())
                         .trashType(aiResponse.getTrashType())
-                        .locationContext(aiResponse.getLocationContext())
+                        .aiAnalysis(aiResponse.getAiAnalysis())
                         .volumeEstimate(aiResponse.getVolumeEstimate())
                         .build();
                 complaintRepository.save(complaint);

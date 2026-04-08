@@ -18,7 +18,7 @@ public class AIResponse {
 
     private VolumeEstimate volumeEstimate;
 
-    private String locationContext;
+    private String aiAnalysis;
 
     private double severityScore;
 }

@@ -21,7 +21,7 @@ public class ComplaintController {
         this.complaintService = complaintService;
     }
 
-    @PostMapping("/complaint")
+    @PostMapping("/citizen/complaint")
     public ResponseEntity<String> complaint(
             @RequestParam MultipartFile image
             ) throws  Exception{

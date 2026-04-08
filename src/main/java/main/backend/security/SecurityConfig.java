@@ -28,12 +28,6 @@ public class SecurityConfig {
         this.userDetailsService = userDetailsService;
     }
 
-    // this bean is related to dealing with external api services
-    @Bean
-    public RestTemplate restTemplate(){
-        return  new RestTemplate();
-    }
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http.csrf(csrf -> csrf.disable())

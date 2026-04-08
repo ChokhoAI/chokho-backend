@@ -19,6 +19,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Long workerId;
+
     @Column(nullable = false)
     private String name;
 
@@ -30,10 +32,11 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
+    private String address;
+
     @Enumerated(EnumType.STRING)
     private Role role = Role.CITIZEN;
-
-    private String employeeId;
 
     @CreationTimestamp
     @Column(updatable = false)

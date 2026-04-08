@@ -38,7 +38,6 @@ public class AuthController {
         }
         catch (Exception e){
             System.out.println("Login error: " + e.getMessage());
-            e.printStackTrace();
             return ResponseEntity.badRequest().body(null);
         }
     }
@@ -54,7 +53,7 @@ public class AuthController {
         }
     }
 
-    @PostMapping("registerWorker")
+    @PostMapping("/admin/registerWorker")
     public ResponseEntity<String> registerWorker(@RequestBody RegisterRequest registerRequest){
         try{
             String message = authService.registerWorker(registerRequest);

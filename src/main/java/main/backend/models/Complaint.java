@@ -53,7 +53,7 @@ public class Complaint {
     private VolumeEstimate volumeEstimate;
 
     @Column
-    private String locationContext;
+    private String aiAnalysis;
 
     @Column
     private double severityScore;

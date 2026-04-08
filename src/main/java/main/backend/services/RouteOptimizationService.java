@@ -2,7 +2,7 @@ package main.backend.services;
 
 import main.backend.dto.RouteComplaintDTO;
 import main.backend.dto.RouteOptimizationDTO;
-import main.backend.dto.RouteOptimizationResponse;
+import main.backend.dto.response.RouteOptimizationResponse;
 import main.backend.dto.RouteResultDTO;
 import main.backend.enums.ComplaintStatus;
 import main.backend.enums.RouteStatus;

@@ -1,7 +1,7 @@
 package main.backend.services;
 
 import main.backend.dto.VerificationFastApiDTO;
-import main.backend.dto.VerificationFastApiResponse;
+import main.backend.dto.response.VerificationFastApiResponse;
 import main.backend.enums.ComplaintStatus;
 import main.backend.enums.RouteStatus;
 import main.backend.models.*;

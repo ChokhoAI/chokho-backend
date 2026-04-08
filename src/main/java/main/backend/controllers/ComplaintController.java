@@ -1,6 +1,6 @@
 package main.backend.controllers;
 
-import main.backend.dto.ComplaintResponse;
+import main.backend.dto.response.ComplaintResponse;
 import main.backend.security.CustomUserDetails;
 import main.backend.services.ComplaintService;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +31,7 @@ public class ComplaintController {
         return ResponseEntity.ok(complaintService.registerComplaint(image,userDetails));
     }
 
-    @GetMapping("/complaints")
+    @GetMapping("/admin/complaints")
     public List<ComplaintResponse> complaints(){
         return complaintService.findAllComplaints();
     }

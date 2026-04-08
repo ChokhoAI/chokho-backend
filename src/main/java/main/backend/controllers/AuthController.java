@@ -1,8 +1,8 @@
 package main.backend.controllers;
 
-import main.backend.dto.AuthResponse;
-import main.backend.dto.LoginRequest;
-import main.backend.dto.RegisterRequest;
+import main.backend.dto.response.AuthResponse;
+import main.backend.dto.request.LoginRequest;
+import main.backend.dto.request.RegisterRequest;
 import main.backend.services.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

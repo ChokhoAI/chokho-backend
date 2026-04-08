@@ -1,6 +1,6 @@
 package main.backend.services;
 
-import main.backend.dto.AIResponse;
+import main.backend.dto.response.AIResponse;
 import main.backend.enums.TrashType;
 import org.springframework.stereotype.Service;
 

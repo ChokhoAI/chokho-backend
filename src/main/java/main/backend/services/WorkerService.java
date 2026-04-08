@@ -1,6 +1,6 @@
 package main.backend.services;
 
-import main.backend.dto.WorkerComplaintResponse;
+import main.backend.dto.response.WorkerComplaintResponse;
 import main.backend.enums.RouteStatus;
 import main.backend.models.Complaint;
 import main.backend.models.Route;

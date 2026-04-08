@@ -1,7 +1,7 @@
 package main.backend.services;
 
-import main.backend.dto.AIResponse;
-import main.backend.dto.ComplaintResponse;
+import main.backend.dto.response.AIResponse;
+import main.backend.dto.response.ComplaintResponse;
 import main.backend.enums.ComplaintStatus;
 import main.backend.models.Complaint;
 import main.backend.models.GeoLocation;

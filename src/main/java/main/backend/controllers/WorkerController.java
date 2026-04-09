@@ -1,4 +1,6 @@
 package main.backend.controllers;
+import main.backend.dto.response.WorkerDashboardResponse;
+import main.backend.dto.response.WorkerProfileResponse;
 import main.backend.security.CustomUserDetails;
 import main.backend.services.VerificationService;
 import main.backend.services.WorkerService;
@@ -38,7 +40,7 @@ public class WorkerController {
         }
     }
 
-    @PostMapping("/my-route/finish")
+    @PostMapping("/finish-route")
     public ResponseEntity<String> finishRoute(){
         try{
             CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -48,4 +50,17 @@ public class WorkerController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @GetMapping("/dashboard")
+    public WorkerDashboardResponse dashboard(){
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return workerService.workerDashboard(userDetails.getUser());
+    }
+
+    @GetMapping("/profile")
+    public WorkerProfileResponse profile(){
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return workerService.workerProfile(userDetails.getUser());
+    }
+
 }

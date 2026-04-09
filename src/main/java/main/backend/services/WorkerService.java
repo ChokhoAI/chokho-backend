@@ -1,6 +1,10 @@
 package main.backend.services;
 
+import main.backend.dto.WorkerComplaintDTO;
 import main.backend.dto.response.WorkerComplaintResponse;
+import main.backend.dto.response.WorkerDashboardResponse;
+import main.backend.dto.response.WorkerProfileResponse;
+import main.backend.enums.ComplaintStatus;
 import main.backend.enums.RouteStatus;
 import main.backend.models.Complaint;
 import main.backend.models.Route;
@@ -9,6 +13,7 @@ import main.backend.models.Vehicle;
 import main.backend.repositories.ComplaintRepository;
 import main.backend.repositories.RouteRepository;
 import main.backend.repositories.VehicleRepository;
+import main.backend.repositories.VerificationRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,11 +23,15 @@ public class WorkerService {
     private final VehicleRepository vehicleRepository;
     private final RouteRepository routeRepository;
     private final ComplaintRepository complaintRepository;
+    private final VerificationRepository verificationRepository;
+    private final AreaService areaService;
 
-    public WorkerService(VehicleRepository vehicleRepository, RouteRepository routeRepository, ComplaintRepository complaintRepository){
+    public WorkerService(VehicleRepository vehicleRepository, VerificationRepository verificationRepository, AreaService areaService, RouteRepository routeRepository, ComplaintRepository complaintRepository){
         this.vehicleRepository = vehicleRepository;
         this.routeRepository = routeRepository;
         this.complaintRepository = complaintRepository;
+        this.areaService = areaService;
+        this.verificationRepository = verificationRepository;
     }
 
     public List<WorkerComplaintResponse> getRoute(User worker){
@@ -36,15 +45,61 @@ public class WorkerService {
 
         List<Complaint> complaints = complaintRepository.findAllByRouteOrderBySequenceNoAsc(route);
 
-        List<WorkerComplaintResponse> res =complaints.stream().map(
-                 complaint -> new WorkerComplaintResponse(complaint.getId(),
+        List<WorkerComplaintResponse> workerComplaintResponses =complaints.stream().map(
+                 complaint -> new WorkerComplaintResponse(
+                         complaint.getId(),
                          complaint.getLocation().getY(),
                          complaint.getLocation().getX(),
+                         areaService.getLocation(complaint.getLocation().getY(), complaint.getLocation().getX()),
                          complaint.getImageUrl(),
                          complaint.getStatus(),
                          complaint.getSequenceNo())
-        ).collect(Collectors.toList());
+        ).toList();
 
-        return res;
+        return workerComplaintResponses;
+    }
+
+    public WorkerDashboardResponse workerDashboard(User worker){
+        Vehicle vehicle = vehicleRepository.findByWorker(worker);
+        Route route = routeRepository.findByWorker(worker);
+
+        int pendingComplaints = complaintRepository.countByRouteAndComplaintStatus(route, ComplaintStatus.ASSIGNED);
+        int completedComplaints = complaintRepository.countByRouteAndComplaintStatus(route, ComplaintStatus.CLEANED);
+
+        List<WorkerComplaintDTO> complaintDTOS = complaintRepository.findAllByRouteOrderBySequenceNoAsc(route)
+                .stream().map(
+                        c-> new WorkerComplaintDTO(
+                                "CMP-" + c.getId(),
+                                c.getTrashType(),
+                                areaService.getLocation(c.getLocation().getY(),c.getLocation().getX()),
+                                c.getVolumeEstimate()
+                        )
+                ).toList();
+
+        return new WorkerDashboardResponse(
+                worker.getName(),
+                "RT-" + route.getId(),
+                complaintDTOS,
+                completedComplaints,
+                pendingComplaints,
+                vehicle.getVehicleNo(),
+                route.getRouteStatus(),
+                route.getCreatedAt()
+        );
+    }
+
+    public WorkerProfileResponse workerProfile(User worker){
+
+        Vehicle vehicle = vehicleRepository.findByWorker(worker);
+
+        return new WorkerProfileResponse(
+                worker.getName(),
+                "EMP-" + worker.getWorkerId(),
+                worker.getPhone(),
+                vehicle.getVehicleNo(),
+                worker.getAddress(),
+                routeRepository.countByWorker(worker),
+                verificationRepository.countByWorker(worker)
+        );
     }
 }

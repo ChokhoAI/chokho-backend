@@ -10,6 +10,7 @@ public class WorkerComplaintResponse {
         private Long id;
         private double latitude;
         private double longitude;
+        private String location;
         private String imageUrl;
         private ComplaintStatus status;
         private int sequenceNo;

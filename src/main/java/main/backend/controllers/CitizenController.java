@@ -3,12 +3,11 @@ package main.backend.controllers;
 import main.backend.dto.response.CitizenComplaintsResponse;
 import main.backend.dto.response.CitizenDashboardResponse;
 import main.backend.dto.response.CitizenProfileResponse;
+import main.backend.dto.response.ComplaintDetailResponse;
 import main.backend.security.CustomUserDetails;
 import main.backend.services.CitizenService;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -39,4 +38,8 @@ public class CitizenController {
         return citizenService.getProfile(userDetails.getUser());
     }
 
+    @GetMapping("/complaints/{complaintId}")
+    public ComplaintDetailResponse citizenComplaintDetail(@PathVariable Long complaintId){
+        return citizenService.complaintDetail(complaintId);
+    }
 }

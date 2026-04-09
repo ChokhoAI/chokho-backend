@@ -9,6 +9,7 @@ import main.backend.models.Complaint;
 import main.backend.models.User;
 import main.backend.models.Vehicle;
 import main.backend.repositories.ComplaintRepository;
+import main.backend.repositories.VerificationRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,9 +19,11 @@ import java.util.stream.Collectors;
 public class CitizenService {
     private final AreaService areaService;
     private final ComplaintRepository complaintRepository;
+    private final VerificationRepository verificationRepository;
 
-    public CitizenService(AreaService areaService, ComplaintRepository complaintRepository){
+    public CitizenService(AreaService areaService, ComplaintRepository complaintRepository, VerificationRepository verificationRepository){
         this.complaintRepository = complaintRepository;
+        this.verificationRepository = verificationRepository;
         this.areaService = areaService;
     }
 
@@ -102,6 +105,7 @@ public class CitizenService {
                 complaint.getCreatedAt(),
                 areaService.getLocation(complaint.getLocation().getY(), complaint.getLocation().getX()),
                 complaint.getImageUrl(),
+                complaint.getStatus() == ComplaintStatus.CLEANED? verificationRepository.findByComplaint(complaint).getVerifiedImgUrl() : "null",
                 complaint.getAiAnalysis(),
                 workerName
         );

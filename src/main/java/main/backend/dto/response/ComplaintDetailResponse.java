@@ -19,6 +19,7 @@ public class ComplaintDetailResponse {
     private LocalDateTime createdAt;
     private String location;
     private String imageUrl;
+    private String cleanedImageUrl;
     private String aiAnalysis;
     private String workerName;
 }

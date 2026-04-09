@@ -61,7 +61,10 @@ public class WorkerService {
 
     public WorkerDashboardResponse workerDashboard(User worker){
         Vehicle vehicle = vehicleRepository.findByWorker(worker);
+        if(vehicle == null) throw  new RuntimeException("Vehicle not assigned");
+
         Route route = routeRepository.findByWorker(worker);
+        if(route == null) throw new RuntimeException("Route not found");
 
         int pendingComplaints = complaintRepository.countByRouteAndComplaintStatus(route, ComplaintStatus.ASSIGNED);
         int completedComplaints = complaintRepository.countByRouteAndComplaintStatus(route, ComplaintStatus.CLEANED);
@@ -91,6 +94,8 @@ public class WorkerService {
     public WorkerProfileResponse workerProfile(User worker){
 
         Vehicle vehicle = vehicleRepository.findByWorker(worker);
+
+        if(vehicle == null) throw new RuntimeException("Vehicle not assigned");
 
         return new WorkerProfileResponse(
                 worker.getName(),

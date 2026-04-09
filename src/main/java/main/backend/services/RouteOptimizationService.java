@@ -69,7 +69,7 @@ public class RouteOptimizationService {
             }
             RouteOptimizationResponse response = getRoutes(routeOptimizationDTO);
 
-            List<Vehicle> vehicles = vehicleRepository.findByVehicleStatus(VehicleStatus.ACTIVE);
+            List<Vehicle> vehicles = vehicleRepository.findAllByVehicleStatus(VehicleStatus.ACTIVE);
 
             for(RouteResultDTO routeResult : response.getRoutes()){
                 Vehicle vehicle = vehicles.get(routeResult.getCluster_id());

@@ -14,4 +14,5 @@ public class WorkerComplaintResponse {
         private String imageUrl;
         private ComplaintStatus status;
         private int sequenceNo;
+        private int severityScore;
 }

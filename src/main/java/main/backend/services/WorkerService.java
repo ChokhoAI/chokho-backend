@@ -53,7 +53,9 @@ public class WorkerService {
                          areaService.getLocation(complaint.getLocation().getY(), complaint.getLocation().getX()),
                          complaint.getImageUrl(),
                          complaint.getStatus(),
-                         complaint.getSequenceNo())
+                         complaint.getSequenceNo(),
+                         (int) complaint.getSeverityScore()
+                 )
         ).toList();
 
         return workerComplaintResponses;

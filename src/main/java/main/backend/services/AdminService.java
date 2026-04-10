@@ -18,6 +18,8 @@ import main.backend.repositories.RouteRepository;
 import main.backend.repositories.UserRepository;
 import main.backend.repositories.VehicleRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service
@@ -36,9 +38,10 @@ public class AdminService {
         this.areaService = areaService;
     }
 
+    @Transactional
     public AdminDashboardResponse getDashboard(User admin){
 
-        int efficiency = complaintRepository.count() == 0? 0 :  (complaintRepository.countByComplaintStatus(ComplaintStatus.CLEANED) * 100) / (int) complaintRepository.count();
+        int efficiency = complaintRepository.count() == 0? 0 :  (complaintRepository.countByStatus(ComplaintStatus.CLEANED) * 100) / (int) complaintRepository.count();
 
         List<Route> routes = routeRepository.findAllByRouteStatus(RouteStatus.PENDING).stream().limit(5).toList();
 
@@ -49,7 +52,7 @@ public class AdminService {
                 (int)complaintRepository.count(),
                 userRepository.countByRole(Role.WORKER),
                 userRepository.countByRole(Role.CITIZEN),
-                complaintRepository.countByComplaintStatus(ComplaintStatus.PENDING),
+                complaintRepository.countByStatus(ComplaintStatus.PENDING),
                 vehicleRepository.countByVehicleStatus(VehicleStatus.ACTIVE),
                 (int)vehicleRepository.count(),
                 efficiency,
@@ -72,6 +75,7 @@ public class AdminService {
         );
     }
 
+    @Transactional
     public List<AdminComplaintResponse> getComplaints(){
         return complaintRepository.findAll().stream().map(
                 c-> new AdminComplaintResponse(
@@ -90,6 +94,7 @@ public class AdminService {
         ).toList();
     }
 
+    @Transactional
     public List<AdminVehicleResponse> getVehicles(){
         return vehicleRepository.findAll().stream().map(
                 v -> new AdminVehicleResponse(
@@ -101,6 +106,7 @@ public class AdminService {
         ).toList();
     }
 
+    @Transactional
     public List<AdminWorkerResponse> getWorkers(){
 
         return userRepository.findAllByRole(Role.WORKER).stream().map(

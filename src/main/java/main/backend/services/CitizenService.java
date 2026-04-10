@@ -11,6 +11,7 @@ import main.backend.models.Vehicle;
 import main.backend.repositories.ComplaintRepository;
 import main.backend.repositories.VerificationRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,9 +28,10 @@ public class CitizenService {
         this.areaService = areaService;
     }
 
+    @Transactional
     public CitizenDashboardResponse getDashboard(User user){
-        int pendingComplaints = complaintRepository.countByUserAndComplaintStatus(user, ComplaintStatus.PENDING);
-        int resolvedComplaints = complaintRepository.countByUserAndComplaintStatus(user, ComplaintStatus.CLEANED);
+        int pendingComplaints = complaintRepository.countByUserAndStatus(user, ComplaintStatus.PENDING);
+        int resolvedComplaints = complaintRepository.countByUserAndStatus(user, ComplaintStatus.CLEANED);
         int totalComplaints = complaintRepository.countByUser(user);
 
         int complaintResolvedPercentage = totalComplaints == 0 ? 0 : (resolvedComplaints * 100) / totalComplaints;
@@ -82,7 +84,6 @@ public class CitizenService {
                 user.getName(),
                 user.getRole(),
                 user.getPhone(),
-                user.getAddress(),
                 "CIT-" + user.getId()
         );
     }

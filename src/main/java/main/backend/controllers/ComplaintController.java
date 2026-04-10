@@ -30,9 +30,4 @@ public class ComplaintController {
                                                                                 .getPrincipal();
         return ResponseEntity.ok(complaintService.registerComplaint(image,userDetails));
     }
-
-    @GetMapping("/admin/complaints")
-    public List<ComplaintResponse> complaints(){
-        return complaintService.findAllComplaints();
-    }
 }

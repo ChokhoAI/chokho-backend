@@ -68,8 +68,8 @@ public class WorkerService {
         Route route = routeRepository.findByWorker(worker);
         if(route == null) throw new RuntimeException("Route not found");
 
-        int pendingComplaints = complaintRepository.countByRouteAndComplaintStatus(route, ComplaintStatus.ASSIGNED);
-        int completedComplaints = complaintRepository.countByRouteAndComplaintStatus(route, ComplaintStatus.CLEANED);
+        int pendingComplaints = complaintRepository.countByRouteAndStatus(route, ComplaintStatus.ASSIGNED);
+        int completedComplaints = complaintRepository.countByRouteAndStatus(route, ComplaintStatus.CLEANED);
 
         List<WorkerComplaintDTO> complaintDTOS = complaintRepository.findAllByRouteOrderBySequenceNoAsc(route)
                 .stream().map(
@@ -104,7 +104,6 @@ public class WorkerService {
                 "EMP-" + worker.getWorkerId(),
                 worker.getPhone(),
                 vehicle.getVehicleNo(),
-                worker.getAddress(),
                 routeRepository.countByWorker(worker),
                 verificationRepository.countByWorker(worker)
         );

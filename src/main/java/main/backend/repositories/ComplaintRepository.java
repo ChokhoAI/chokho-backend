@@ -19,11 +19,11 @@ public interface ComplaintRepository extends JpaRepository<Complaint,Long> {
 
     int countByUser(User user);
 
-    int countByUserAndComplaintStatus(User user, ComplaintStatus complaintStatus);
+    int countByUserAndStatus(User user, ComplaintStatus complaintStatus);
 
-    int countByRouteAndComplaintStatus(Route route, ComplaintStatus complaintStatus);
+    int countByRouteAndStatus(Route route, ComplaintStatus complaintStatus);
 
-    int countByComplaintStatus(ComplaintStatus complaintStatus);
+    int countByStatus(ComplaintStatus complaintStatus);
 
     List<Complaint> findAllByUser(User user);
 

@@ -10,6 +10,5 @@ public class CitizenProfileResponse {
     private String name;
     private Role role;
     private String phoneNo;
-    private String address;
     private String formattedId;
 }

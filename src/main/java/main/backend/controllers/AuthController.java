@@ -53,15 +53,6 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/admin/registerWorker")
-    public ResponseEntity<String> registerWorker(@RequestBody RegisterRequest registerRequest){
-        try{
-            String message = authService.registerWorker(registerRequest);
-            return ResponseEntity.ok(message);
-        }
-        catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
+
 
 }

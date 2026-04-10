@@ -84,6 +84,7 @@ public class AuthService {
                 .role(Role.WORKER)
                 .build();
 
+        user.setWorkerId(user.getId());
         userRepository.save(user);
 
         return "Worker registered successfully";

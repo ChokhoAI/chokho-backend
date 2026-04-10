@@ -1,15 +1,16 @@
 package main.backend.controllers;
 
+import main.backend.dto.request.RegisterRequest;
 import main.backend.dto.response.AdminComplaintResponse;
 import main.backend.dto.response.AdminDashboardResponse;
 import main.backend.dto.response.AdminVehicleResponse;
 import main.backend.dto.response.AdminWorkerResponse;
 import main.backend.security.CustomUserDetails;
 import main.backend.services.AdminService;
+import main.backend.services.AuthService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,9 +18,22 @@ import java.util.List;
 @RequestMapping("/admin")
 public class AdminController {
     private final AdminService adminService;
+    private final AuthService authService;
 
-    public AdminController(AdminService adminService){
+    public AdminController(AdminService adminService, AuthService authService){
         this.adminService = adminService;
+        this.authService = authService;
+    }
+
+    @PostMapping("/registerWorker")
+    public ResponseEntity<String> registerWorker(@RequestBody RegisterRequest registerRequest){
+        try{
+            String message = authService.registerWorker(registerRequest);
+            return ResponseEntity.ok(message);
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @GetMapping("/dashboard")

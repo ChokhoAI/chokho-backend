@@ -10,7 +10,6 @@ public class WorkerProfileResponse {
     private String workerId;
     private String phoneNo;
     private String assignedVehicleNo;
-    private String address;
     private int totalCompletedRoutes;
     private int totalVerifications;
 

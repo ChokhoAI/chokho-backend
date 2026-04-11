@@ -17,6 +17,6 @@ public interface RouteRepository extends JpaRepository<Route, Long> {
 
     Route findByWorker(User worker);
 
-    int countByWorker(User worker);
+    int countByWorkerAndRouteStatus(User worker, RouteStatus routeStatus);
 
 }

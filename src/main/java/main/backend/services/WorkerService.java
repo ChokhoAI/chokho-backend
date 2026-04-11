@@ -104,7 +104,7 @@ public class WorkerService {
                 "EMP-" + worker.getWorkerId(),
                 worker.getPhone(),
                 vehicle.getVehicleNo(),
-                routeRepository.countByWorker(worker),
+                routeRepository.countByWorkerAndRouteStatus(worker,RouteStatus.COMPLETED),
                 verificationRepository.countByWorker(worker)
         );
     }

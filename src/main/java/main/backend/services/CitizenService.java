@@ -62,6 +62,7 @@ public class CitizenService {
         );
     }
 
+    @Transactional
     public List<CitizenComplaintsResponse> myComplaints(User user){
         List<Complaint> complaints = complaintRepository.findAllByUser(user);
 
@@ -88,6 +89,7 @@ public class CitizenService {
         );
     }
 
+    @Transactional
     public ComplaintDetailResponse complaintDetail(Long complaintId){
         Complaint complaint = complaintRepository.findById(complaintId).orElseThrow();
         Vehicle vehicle = complaint.getVehicle();

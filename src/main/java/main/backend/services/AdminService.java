@@ -2,10 +2,8 @@ package main.backend.services;
 
 import main.backend.dto.AdminDashboardComplaintDTO;
 import main.backend.dto.AdminDashboardRouteDTO;
-import main.backend.dto.response.AdminComplaintResponse;
-import main.backend.dto.response.AdminDashboardResponse;
-import main.backend.dto.response.AdminVehicleResponse;
-import main.backend.dto.response.AdminWorkerResponse;
+import main.backend.dto.RouteStopsDTO;
+import main.backend.dto.response.*;
 import main.backend.enums.ComplaintStatus;
 import main.backend.enums.Role;
 import main.backend.enums.RouteStatus;
@@ -73,6 +71,28 @@ public class AdminService {
                         )
                 ).toList()
         );
+    }
+
+    @Transactional
+    public List<AdminRouteResponse> getRoutes(){
+        List<Route> routes = routeRepository.findAllByRouteStatus(RouteStatus.PENDING);
+
+        return routes.stream().map(
+                r -> new AdminRouteResponse(
+                        r.getId(),
+                        "RT-" + r.getId(),
+                        r.getVehicle() != null ? r.getVehicle().getVehicleNo() : "Unassigned",
+                        r.getWorker() != null ? r.getWorker().getName() : "Unassigned",
+                        complaintRepository.findAllByRouteOrderBySequenceNoAsc(r).stream().map(
+                                c -> new RouteStopsDTO(
+                                        "CMP-" + c.getId(),
+                                        c.getSequenceNo(),
+                                        c.getLocation().getY(),
+                                        c.getLocation().getX()
+                                )
+                        ).toList()
+                )
+        ).toList();
     }
 
     @Transactional

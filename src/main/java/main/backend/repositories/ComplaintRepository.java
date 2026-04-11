@@ -28,4 +28,6 @@ public interface ComplaintRepository extends JpaRepository<Complaint,Long> {
     List<Complaint> findAllByUser(User user);
 
     List<Complaint> findAllByUserOrderByCreatedAtDesc(User user);
+
+    List<Complaint> findAllByStatusNot(ComplaintStatus status);
 }

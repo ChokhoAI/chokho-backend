@@ -1,6 +1,7 @@
 package main.backend.controllers;
 
 import main.backend.dto.response.ComplaintResponse;
+import main.backend.models.Complaint;
 import main.backend.security.CustomUserDetails;
 import main.backend.services.ComplaintService;
 import org.springframework.http.ResponseEntity;
@@ -29,5 +30,10 @@ public class ComplaintController {
                                                                                 .getAuthentication()
                                                                                 .getPrincipal();
         return ResponseEntity.ok(complaintService.registerComplaint(image,userDetails));
+    }
+
+    @GetMapping("/heatmap")
+    public List<ComplaintResponse> heatmap(){
+        return complaintService.findAllActiveComplaints();
     }
 }

@@ -13,6 +13,7 @@ import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.PrecisionModel;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class ComplaintService {
         this.cloudinaryService = cloudinaryService;
         this.exifService = exifService;
     }
+
     public String registerComplaint(MultipartFile image , CustomUserDetails userDetails) throws  Exception{
 
         GeoLocation geoLocation = exifService.getGeoLocation(image);
@@ -64,8 +66,9 @@ public class ComplaintService {
         }
     }
 
-    public List<ComplaintResponse> findAllComplaints(){
-        List<Complaint> complaints = complaintRepository.findAll();
+    @Transactional
+    public List<ComplaintResponse> findAllActiveComplaints(){
+        List<Complaint> complaints = complaintRepository.findAllByStatusNot(ComplaintStatus.CLEANED);
 
         return complaints.stream().map(
               complaint ->  new ComplaintResponse(complaint.getLocation().getY(),

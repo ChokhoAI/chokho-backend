@@ -1,10 +1,7 @@
 package main.backend.controllers;
 
 import main.backend.dto.request.RegisterRequest;
-import main.backend.dto.response.AdminComplaintResponse;
-import main.backend.dto.response.AdminDashboardResponse;
-import main.backend.dto.response.AdminVehicleResponse;
-import main.backend.dto.response.AdminWorkerResponse;
+import main.backend.dto.response.*;
 import main.backend.security.CustomUserDetails;
 import main.backend.services.AdminService;
 import main.backend.services.AuthService;
@@ -55,5 +52,10 @@ public class AdminController {
     @GetMapping("/vehicles")
     public List<AdminVehicleResponse> vehicles(){
         return adminService.getVehicles();
+    }
+
+    @GetMapping("/routes")
+    public List<AdminRouteResponse> routes(){
+        return adminService.getRoutes();
     }
 }

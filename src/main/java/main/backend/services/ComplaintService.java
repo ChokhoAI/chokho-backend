@@ -35,7 +35,7 @@ public class ComplaintService {
     public String registerComplaint(MultipartFile image , CustomUserDetails userDetails) throws  Exception{
 
         GeoLocation geoLocation = exifService.getGeoLocation(image);
-        AIResponse aiResponse = aiService.fastApiService();
+        AIResponse aiResponse = aiService.fastApiService(image);
 
         if(!aiResponse.isTrashDetected()){
             return "Trash not detected";

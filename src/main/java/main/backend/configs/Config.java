@@ -5,6 +5,7 @@ import com.cloudinary.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
@@ -33,6 +34,9 @@ public class Config {
     // this bean is related to dealing with external api services
     @Bean
     public RestTemplate restTemplate(){
-        return  new RestTemplate();
+        SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
+        factory.setConnectTimeout(60000);
+        factory.setReadTimeout(120000);
+        return  new RestTemplate(factory);
     }
 }

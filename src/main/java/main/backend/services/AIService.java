@@ -38,6 +38,10 @@ public class AIService {
         });
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
-        return restTemplate.postForObject(url, requestEntity, AIResponse.class);
+        try {
+            return restTemplate.postForObject(url, requestEntity, AIResponse.class);
+        } catch (Exception e) {
+            throw new RuntimeException("AI service parse failed", e);
+        }
     }
 }

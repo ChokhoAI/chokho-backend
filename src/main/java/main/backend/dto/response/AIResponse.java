@@ -2,17 +2,19 @@ package main.backend.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import main.backend.enums.TrashType;
 import main.backend.enums.VolumeEstimate;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class AIResponse {
-    private boolean trashDetected;
+    private Boolean trashDetected;
 
-    private boolean isFake;
+    private Boolean isFake;
 
-    private boolean isIndoor;
+    private Boolean isIndoor;
 
     private TrashType trashType;
 
@@ -20,5 +22,5 @@ public class AIResponse {
 
     private String aiAnalysis;
 
-    private double severityScore;
+    private Double severityScore;
 }

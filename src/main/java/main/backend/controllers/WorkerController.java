@@ -30,10 +30,10 @@ public class WorkerController {
     }
 
     @PostMapping("/verify/{complaintId}")
-    public ResponseEntity<String> verify(@RequestParam MultipartFile image , @PathVariable Long complaintId){
+    public ResponseEntity<String> verify(@RequestParam MultipartFile image ,  @RequestParam Double lat, @RequestParam Double lon, @PathVariable Long complaintId){
         try{
             CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            return ResponseEntity.ok(verificationService.verifyImage(image,complaintId,userDetails.getUser()));
+            return ResponseEntity.ok(verificationService.verifyImage(image,lat,lon ,complaintId,userDetails.getUser()));
         }
         catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());

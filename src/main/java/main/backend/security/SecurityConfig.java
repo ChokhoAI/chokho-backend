@@ -41,9 +41,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         auth-> auth.requestMatchers("/auth/**").permitAll()
                                 .requestMatchers("/heatmap/**").permitAll()
-                                .requestMatchers(
-                                        "/admin/**"
-                                ).hasRole("ADMIN")
+                                .requestMatchers("/ping/**").permitAll()
+                                .requestMatchers("/admin/**").hasRole("ADMIN")
                                 .requestMatchers("/worker/**").hasRole("WORKER")
                                 .anyRequest().authenticated()
                 )

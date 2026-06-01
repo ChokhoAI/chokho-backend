@@ -24,12 +24,17 @@ public class ComplaintController {
 
     @PostMapping("/citizen/complaint")
     public ResponseEntity<String> complaint(
-            @RequestParam MultipartFile image
+            @RequestParam MultipartFile image, @RequestParam Double lat , @RequestParam Double lon
             ) throws  Exception{
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext()
                                                                                 .getAuthentication()
                                                                                 .getPrincipal();
-        return ResponseEntity.ok(complaintService.registerComplaint(image,userDetails));
+        return ResponseEntity.ok(complaintService.registerComplaint(image , lat, lon,userDetails));
+    }
+
+    @GetMapping("/ping")
+    public ResponseEntity<String> ping(){
+        return ResponseEntity.ok("Pong");
     }
 
     @GetMapping("/heatmap")

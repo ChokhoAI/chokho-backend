@@ -22,6 +22,7 @@ public class AdminController {
         this.authService = authService;
     }
 
+
     @PostMapping("/registerWorker")
     public ResponseEntity<String> registerWorker(@RequestBody RegisterRequest registerRequest){
         try{

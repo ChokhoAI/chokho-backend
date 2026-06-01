@@ -32,23 +32,23 @@ public class ComplaintService {
         this.exifService = exifService;
     }
 
-    public String registerComplaint(MultipartFile image , CustomUserDetails userDetails) throws  Exception{
+    public String registerComplaint(MultipartFile image , Double lat , Double lon ,CustomUserDetails userDetails) throws  Exception{
 
-        GeoLocation geoLocation = exifService.getGeoLocation(image);
+//        GeoLocation geoLocation = exifService.getGeoLocation(image);
         AIResponse aiResponse = aiService.fastApiService(image);
 
-        if(!aiResponse.isTrashDetected()){
+        if(!aiResponse.getTrashDetected()){
             return "Trash not detected";
         }
-        else if(aiResponse.isIndoor()){
+        else if(aiResponse.getIsIndoor()){
             return "Trash is found indoor";
         }
-        else if(aiResponse.isFake()){
+        else if(aiResponse.getIsFake()){
             return "Image is fake";
         }else {
             String url = cloudinaryService.uploadImage(image);
             GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(),4326);
-            Point point = geometryFactory.createPoint(new Coordinate(geoLocation.getLongitude(), geoLocation.getLatitude()));
+            Point point = geometryFactory.createPoint(new Coordinate(lon, lat));
             User user = userDetails.getUser();
 
             Complaint complaint = Complaint.builder().user(user)

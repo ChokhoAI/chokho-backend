@@ -21,6 +21,7 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -87,12 +88,19 @@ public class RouteOptimizationService {
                         .collect(Collectors.toList());
 
                 List<Complaint> complaints = complaintRepository.findAllById(complaintIds);
-                for(int i = 0; i < complaints.size(); i++){
-                    Complaint complaint  = complaints.get(i);
-                    complaint.setRoute(route);
-                    complaint.setStatus(ComplaintStatus.ASSIGNED);
-                    complaint.setSequenceNo(i+1);
-                    complaint.setVehicle(vehicle);
+
+                Map<Long, Complaint> complaintMap = complaints.stream()
+                        .collect(Collectors.toMap(Complaint::getId, c -> c));
+
+
+                for (int i = 0; i < complaintIds.size(); i++) {
+                    Complaint complaint = complaintMap.get(complaintIds.get(i));
+                    if (complaint != null) {
+                        complaint.setRoute(route);
+                        complaint.setStatus(ComplaintStatus.ASSIGNED);
+                        complaint.setSequenceNo(i + 1);
+                        complaint.setVehicle(vehicle);
+                    }
                 }
 
                 complaintRepository.saveAll(complaints);

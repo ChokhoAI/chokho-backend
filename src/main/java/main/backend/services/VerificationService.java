@@ -56,8 +56,8 @@ public class VerificationService {
         return R * c; // distance in meters
     }
 
-    public String verifyImage(MultipartFile file, Long complaintId, User worker) throws Exception{
-        GeoLocation location = exifService.getGeoLocation(file);
+    public String verifyImage(MultipartFile file, Double lat, Double lon, Long complaintId, User worker) throws Exception{
+//        GeoLocation location = exifService.getGeoLocation(file);
 
         Complaint complaint = complaintRepository.findById(complaintId)
                 .orElseThrow(() -> new RuntimeException("Complaint not found"));
@@ -65,7 +65,7 @@ public class VerificationService {
         double original_longitude = complaint.getLocation().getX();
         double original_latitude = complaint.getLocation().getY();
 
-        double distance = calculateDistance(location.getLatitude(), location.getLongitude(), original_latitude, original_longitude);
+        double distance = calculateDistance(lat, lon, original_latitude, original_longitude);
 
         if(distance > 20){
             throw new RuntimeException("Worker is not at the complaint location");
@@ -79,7 +79,7 @@ public class VerificationService {
 
         if(response.isCleaned()){
             GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(),4326);
-            Point point = geometryFactory.createPoint(new Coordinate(location.getLongitude(), location.getLatitude()));
+            Point point = geometryFactory.createPoint(new Coordinate(lon,lat));
             Verification verification = Verification.builder()
                             .worker(worker)
                                     .notes(response.getReason())
